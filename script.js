@@ -6,6 +6,7 @@ class AnxiouslyEngagedGame {
         this.score = 0;
         this.workPoints = 0;
         this.helpPoints = 0;
+        this.dailyScore = 0; // Points earned today
         this.gameTime = 120; // 2 minutes in seconds
         this.workTime = 10; // 10 seconds work timer
         this.gameRunning = false;
@@ -110,6 +111,11 @@ class AnxiouslyEngagedGame {
             anxiouslyEngagedOverlay: document.getElementById('anxiously-engaged-overlay'),
             continueWorkBtn: document.getElementById('continue-work-btn'),
             
+            endOfDayOverlay: document.getElementById('end-of-day-overlay'),
+            dailyPoints: document.getElementById('daily-points'),
+            eveningMessage: document.getElementById('evening-message'),
+            nextDayBtn: document.getElementById('next-day-btn'),
+            
             currentNpc: document.getElementById('current-npc')
         };
         
@@ -135,6 +141,9 @@ class AnxiouslyEngagedGame {
         
         // Anxiously engaged screen
         this.elements.continueWorkBtn.addEventListener('click', () => this.continueToWork());
+        
+        // End of day screen
+        this.elements.nextDayBtn.addEventListener('click', () => this.startNextDay());
         
         // NPC click
         this.elements.currentNpc.addEventListener('click', () => this.showDialogue());
@@ -293,16 +302,16 @@ class AnxiouslyEngagedGame {
     doWork() {
         this.workPoints += 1;
         this.score += 1;
+        this.dailyScore += 1;
         console.log('Working... +1 point');
     }
     
     endWorkDay() {
         this.workStartTime = null;
-        this.currentDay++;
         
         if (this.gameTime > 0) {
-            // Start new day
-            this.changeState('home');
+            // Show end of day screen
+            this.showEndOfDayScreen();
         } else {
             this.endGame();
         }
@@ -350,6 +359,7 @@ class AnxiouslyEngagedGame {
         if (this.currentEncounter) {
             this.helpPoints += this.currentEncounter.helpPoints;
             this.score += this.currentEncounter.helpPoints;
+            this.dailyScore += this.currentEncounter.helpPoints;
             console.log(`Helped! +${this.currentEncounter.helpPoints} points`);
         }
         this.showAnxiouslyEngagedScreen();
@@ -389,6 +399,34 @@ class AnxiouslyEngagedGame {
         }, 1000);
     }
     
+    showEndOfDayScreen() {
+        // Update daily points display
+        this.elements.dailyPoints.textContent = this.dailyScore;
+        
+        // Set evening message based on current day
+        const eveningMessages = {
+            1: "Let's get a good night's sleep and start again tomorrow.",
+            2: "Let's stay up all night talking to friends.",
+            3: "Let's party like it's 1999 until dawn.",
+            4: "Let's binge Netflix until morning."
+        };
+        
+        const message = eveningMessages[this.currentDay] || eveningMessages[1];
+        this.elements.eveningMessage.textContent = message;
+        
+        // Show the end of day overlay
+        this.elements.endOfDayOverlay.style.display = 'flex';
+    }
+    
+    startNextDay() {
+        this.elements.endOfDayOverlay.style.display = 'none';
+        this.currentDay++;
+        this.dailyScore = 0; // Reset daily score for new day
+        
+        // Start new day
+        this.changeState('home');
+    }
+    
     // Game End
     endGame() {
         this.gameRunning = false;
@@ -422,6 +460,7 @@ class AnxiouslyEngagedGame {
         this.score = 0;
         this.workPoints = 0;
         this.helpPoints = 0;
+        this.dailyScore = 0;
         this.gameTime = 120;
         this.workTime = 10;
         this.gameRunning = false;
@@ -433,6 +472,7 @@ class AnxiouslyEngagedGame {
         // Hide overlays
         this.elements.dialogueOverlay.style.display = 'none';
         this.elements.anxiouslyEngagedOverlay.style.display = 'none';
+        this.elements.endOfDayOverlay.style.display = 'none';
         this.elements.gameEndOverlay.style.display = 'none';
         
         // Reset to home state
