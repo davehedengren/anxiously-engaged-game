@@ -14,7 +14,7 @@ class AnxiouslyEngagedGame {
         this.workStartTime = null;
         
         // Character movement
-        this.characterPosition = 50; // Start at center (50%)
+        this.characterPosition = 5; // Start at left side (5%)
         this.lastMovement = null; // Track last movement direction
         
         // NPC encounters
@@ -264,7 +264,7 @@ class AnxiouslyEngagedGame {
         }
         
         // Reset character position and movement for new day
-        this.characterPosition = 50; // Start at center
+        this.characterPosition = 5; // Start at left side
         this.lastMovement = null; // Allow any direction first
         this.updateCharacterPosition();
         
@@ -281,20 +281,22 @@ class AnxiouslyEngagedGame {
         console.log(`Moving ${direction}`);
         this.lastMovement = direction;
         
-        // Move character incrementally across screen
+        // Move character from left to right across screen
+        // Both left and right button presses move the character rightward (simulating walking steps)
+        this.characterPosition = Math.min(95, this.characterPosition + 12);
+        
+        // Show appropriate walking sprite
         if (direction === 'left') {
-            this.characterPosition = Math.max(0, this.characterPosition - 15);
             this.updateCharacterSprite('walking-left');
         } else if (direction === 'right') {
-            this.characterPosition = Math.min(100, this.characterPosition + 15);
             this.updateCharacterSprite('walking-right');
         }
         
         // Update character position on screen
         this.updateCharacterPosition();
         
-        // Check if character has reached the edge to go to work
-        if (this.characterPosition <= 0 || this.characterPosition >= 100) {
+        // Check if character has reached the right side to go to work
+        if (this.characterPosition >= 95) {
             setTimeout(() => {
                 if (this.gameState === 'walking') {
                     this.reachOffice();
@@ -494,7 +496,7 @@ class AnxiouslyEngagedGame {
         this.gameRunning = false;
         this.gameStartTime = null;
         this.workStartTime = null;
-        this.characterPosition = 50;
+        this.characterPosition = 5;
         this.lastMovement = null;
         this.usedEncounters = [];
         this.currentEncounter = null;
