@@ -1,0 +1,496 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    min-height: 100dvh; /* Use dynamic viewport height for mobile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Game Container - Mobile First */
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    /* Remove border radius for full mobile experience */
+}
+
+/* UI Header - Mobile Optimized */
+.ui-header {
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    color: white;
+    padding: env(safe-area-inset-top, 20px) 20px 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    min-height: 70px;
+}
+
+.ui-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 80px;
+}
+
+.ui-stat label {
+    font-size: 12px;
+    margin-bottom: 4px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ui-stat span {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Game Area */
+.game-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.scene-background {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15%;
+}
+
+/* Home/Start Screen Background */
+.home-bg {
+    background-image: url('assets/backgrounds/alarm.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    align-items: center;
+}
+
+/* Hide character sprite in home scene - background is complete */
+.home-bg .character {
+    display: none;
+}
+
+.street-bg {
+    background-image: url('assets/backgrounds/street_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.office-bg {
+    background-image: url('assets/backgrounds/office_background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    align-items: center; /* Center the scene content */
+    justify-content: center;
+}
+
+/* Hide character sprite in office scene - background has characters built in */
+.office-bg .character {
+    display: none;
+}
+
+/* Character */
+.character {
+    width: 80px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Larger characters in street scene */
+.street-bg .character {
+    width: 180px;
+    height: 225px;
+}
+
+/* Character States */
+.character.idle {
+    background-image: url('assets/characters/main_character/walking_right.png');
+}
+
+.character.walking-left {
+    background-image: url('assets/characters/main_character/walking_left.png');
+}
+
+.character.walking-right {
+    background-image: url('assets/characters/main_character/walking_right.png');
+}
+
+/* NPC */
+.npc {
+    width: 80px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    right: 20%;
+    bottom: 15%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Larger NPCs in street scene */
+.street-bg .npc {
+    width: 180px;
+    height: 225px;
+}
+
+.npc:hover {
+    transform: scale(1.05);
+}
+
+.npc:active {
+    transform: scale(0.95);
+}
+
+/* NPC Sprite Classes */
+.npc.elderly_groceries {
+    background-image: url('assets/characters/npcs/elderly_with_groceries.png');
+}
+
+.npc.child_bike {
+    background-image: url('assets/characters/npcs/child_with_bike.png');
+}
+
+.npc.person_bags {
+    background-image: url('assets/characters/npcs/person_with_heavy_bags.png');
+}
+
+.npc.lost_tourist {
+    background-image: url('assets/characters/npcs/lost_tourist.png');
+}
+
+.npc.flat_tire {
+    background-image: url('assets/characters/npcs/person_with_flat_tire.png');
+}
+
+.npc.dropped_papers {
+    background-image: url('assets/characters/npcs/person_with_dropped_papers.png');
+}
+
+.npc.door_struggle {
+    background-image: url('assets/characters/npcs/person_struggling_with_door.png');
+}
+
+.npc.dropped_wallet {
+    background-image: url('assets/characters/npcs/person_who_dropped_wallet.png');
+}
+
+/* Controls - Mobile Touch Optimized */
+.controls {
+    background: #f5f5f5;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    border-top: 2px solid #ddd;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movement-controls, .work-controls, .transition-controls {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.control-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 20px 35px;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    min-height: 60px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.control-btn:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* Individual Button Styling */
+#start-day-btn {
+    min-width: 160px;
+}
+
+#restart-btn {
+    min-width: 160px;
+    min-height: 60px;
+}
+
+.work-btn {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    font-size: 28px;
+    padding: 25px 50px;
+    min-width: 200px;
+    min-height: 80px;
+}
+
+.work-timer {
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Dialogue Overlay - Mobile Optimized */
+.dialogue-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.dialogue-box {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.npc-dialogue {
+    margin-bottom: 35px;
+}
+
+.npc-dialogue p {
+    font-size: 20px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+}
+
+.dialogue-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dialogue-btn {
+    padding: 18px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 60px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.help-btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    order: 1;
+}
+
+.ignore-btn {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
+    order: 2;
+    border-radius: 25px; /* Keep rounded corners for ignore button */
+}
+
+.dialogue-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Game End Overlay - Mobile Optimized */
+.game-end-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.game-end-box {
+    background: white;
+    border-radius: 25px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.game-end-box h2 {
+    color: #4CAF50;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.final-stats {
+    margin-bottom: 30px;
+    border: 3px solid #ddd;
+    border-radius: 15px;
+    padding: 25px 20px;
+    background: #f9f9f9;
+}
+
+.stat-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.stat-line:last-child {
+    margin-bottom: 0;
+    font-size: 20px;
+    color: #4CAF50;
+    border-top: 2px solid #ddd;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.lesson-message {
+    background: linear-gradient(135deg, #FFE082, #FFCC02);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 2px solid #FFD700;
+}
+
+.lesson-message p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* iPhone and Touch Optimizations */
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent double-tap zoom on iOS */
+button, .control-btn, .dialogue-btn {
+    touch-action: manipulation;
+}
+
+/* NPC Touch Optimization */
+.npc {
+    min-width: 60px;
+    min-height: 80px;
+    cursor: pointer;
+}
+
+/* Better touch targets for larger street NPCs - sizes set above */
+
+.npc:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Character Display - Mobile Optimized Sizing */
+.character {
+    width: 80px;
+    height: 100px;
+}
+
+/* Desktop Overrides (for larger screens) */
+@media (min-width: 768px) {
+    .game-container {
+        width: 100%;
+        max-width: 800px;
+        height: 90vh;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .ui-header {
+        padding: 20px;
+    }
+    
+    .dialogue-buttons {
+        flex-direction: row;
+        gap: 25px;
+    }
+    
+    .dialogue-btn {
+        min-width: 150px;
+    }
+} 

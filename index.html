@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Anxiously Engaged">
+    <meta name="theme-color" content="#4CAF50">
+    <title>Anxiously Engaged Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- UI Header -->
+        <div class="ui-header">
+            <div class="ui-stat">
+                <label>Score:</label>
+                <span id="score-display">0</span>
+            </div>
+            <div class="ui-stat">
+                <label>Day:</label>
+                <span id="day-display">1</span>
+            </div>
+            <div class="ui-stat">
+                <label>Time:</label>
+                <span id="timer-display">2:00</span>
+            </div>
+        </div>
+
+        <!-- Main Game Area -->
+        <div class="game-area" id="game-area">
+            <!-- Game scenes will be rendered here -->
+            <div class="scene" id="home-scene">
+                <div class="scene-background home-bg">
+                    <div class="character" id="main-character"></div>
+                </div>
+            </div>
+            
+            <div class="scene" id="street-scene" style="display: none;">
+                <div class="scene-background street-bg">
+                    <div class="character" id="street-character"></div>
+                    <div class="npc" id="current-npc" style="display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="scene" id="office-scene" style="display: none;">
+                <div class="scene-background office-bg">
+                    <div class="character" id="office-character"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="controls" id="game-controls">
+            <!-- Movement controls (shown during walking) -->
+            <div class="movement-controls" id="movement-controls" style="display: none;">
+                <button class="control-btn" id="left-btn" aria-label="Move Left">LEFT</button>
+                <button class="control-btn" id="right-btn" aria-label="Move Right">RIGHT</button>
+            </div>
+            
+            <!-- Work controls (shown during office) -->
+            <div class="work-controls" id="work-controls" style="display: none;">
+                <button class="control-btn work-btn" id="work-btn" aria-label="Work Button">WORK</button>
+                <div class="work-timer">
+                    Work Timer: <span id="work-timer-display">10</span>s
+                </div>
+            </div>
+            
+            <!-- Transition controls (shown between scenes) -->
+            <div class="transition-controls" id="transition-controls">
+                <button class="control-btn" id="start-day-btn" aria-label="Time to Walk to Work">Time to Walk to Work</button>
+            </div>
+        </div>
+
+        <!-- Dialogue Overlay -->
+        <div class="dialogue-overlay" id="dialogue-overlay" style="display: none;">
+            <div class="dialogue-box">
+                <div class="npc-dialogue">
+                    <p id="dialogue-text">NPC needs help!</p>
+                </div>
+                <div class="dialogue-buttons">
+                    <button class="dialogue-btn help-btn" id="help-btn" aria-label="Help Person">Help</button>
+                    <button class="dialogue-btn ignore-btn" id="ignore-btn" aria-label="Ignore Person">Ignore</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game End Screen -->
+        <div class="game-end-overlay" id="game-end-overlay" style="display: none;">
+            <div class="game-end-box">
+                <h2>Game Complete!</h2>
+                <div class="final-stats">
+                    <div class="stat-line">
+                        <span>Total Score:</span>
+                        <span id="final-score">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Work Points:</span>
+                        <span id="work-points">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Help Points:</span>
+                        <span id="help-points">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Days Completed:</span>
+                        <span id="days-completed">0</span>
+                    </div>
+                </div>
+                <div class="lesson-message">
+                    <p id="lesson-text">Helping others is more rewarding than just focusing on work!</p>
+                </div>
+                <button class="control-btn" id="restart-btn" aria-label="Play Again">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
