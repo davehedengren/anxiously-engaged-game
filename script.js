@@ -107,6 +107,9 @@ class AnxiouslyEngagedGame {
             lessonText: document.getElementById('lesson-text'),
             restartBtn: document.getElementById('restart-btn'),
             
+            anxiouslyEngagedOverlay: document.getElementById('anxiously-engaged-overlay'),
+            continueWorkBtn: document.getElementById('continue-work-btn'),
+            
             currentNpc: document.getElementById('current-npc')
         };
         
@@ -129,6 +132,9 @@ class AnxiouslyEngagedGame {
         
         // Game end
         this.elements.restartBtn.addEventListener('click', () => this.restartGame());
+        
+        // Anxiously engaged screen
+        this.elements.continueWorkBtn.addEventListener('click', () => this.continueToWork());
         
         // NPC click
         this.elements.currentNpc.addEventListener('click', () => this.showDialogue());
@@ -346,7 +352,7 @@ class AnxiouslyEngagedGame {
             this.score += this.currentEncounter.helpPoints;
             console.log(`Helped! +${this.currentEncounter.helpPoints} points`);
         }
-        this.closeDialogue();
+        this.showAnxiouslyEngagedScreen();
     }
     
     chooseIgnore() {
@@ -359,6 +365,23 @@ class AnxiouslyEngagedGame {
         this.changeState('walking');
         
         // Continue to office after dialogue
+        setTimeout(() => {
+            if (this.gameState === 'walking') {
+                this.reachOffice();
+            }
+        }, 1000);
+    }
+    
+    showAnxiouslyEngagedScreen() {
+        this.elements.dialogueOverlay.style.display = 'none';
+        this.elements.anxiouslyEngagedOverlay.style.display = 'flex';
+    }
+    
+    continueToWork() {
+        this.elements.anxiouslyEngagedOverlay.style.display = 'none';
+        this.changeState('walking');
+        
+        // Continue to office after celebrating
         setTimeout(() => {
             if (this.gameState === 'walking') {
                 this.reachOffice();
@@ -409,6 +432,7 @@ class AnxiouslyEngagedGame {
         
         // Hide overlays
         this.elements.dialogueOverlay.style.display = 'none';
+        this.elements.anxiouslyEngagedOverlay.style.display = 'none';
         this.elements.gameEndOverlay.style.display = 'none';
         
         // Reset to home state
