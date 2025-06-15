@@ -13,6 +13,10 @@ class AnxiouslyEngagedGame {
         this.gameStartTime = null;
         this.workStartTime = null;
         
+        // Character movement
+        this.characterPosition = 50; // Start at center (50%)
+        this.lastMovement = null; // Track last movement direction
+        
         // NPC encounters
         this.encounters = [
             {
@@ -222,7 +226,8 @@ class AnxiouslyEngagedGame {
             case 'walking':
                 this.elements.streetScene.style.display = 'block';
                 this.elements.movementControls.style.display = 'flex';
-                this.updateCharacterSprite('walking-right');
+                this.updateCharacterSprite('idle');
+                this.updateCharacterPosition();
                 this.showRandomEncounter();
                 break;
             case 'working':
@@ -257,25 +262,45 @@ class AnxiouslyEngagedGame {
         if (!this.gameRunning) {
             this.startGame();
         }
+        
+        // Reset character position and movement for new day
+        this.characterPosition = 50; // Start at center
+        this.lastMovement = null; // Allow any direction first
+        this.updateCharacterPosition();
+        
         this.changeState('walking');
     }
     
     moveCharacter(direction) {
-        console.log(`Moving ${direction}`);
+        // Enforce alternating movement - can't move same direction twice
+        if (this.lastMovement === direction) {
+            console.log(`Can't move ${direction} twice in a row! Try the other direction.`);
+            return;
+        }
         
-        // Update character sprite based on movement direction
+        console.log(`Moving ${direction}`);
+        this.lastMovement = direction;
+        
+        // Move character incrementally across screen
         if (direction === 'left') {
+            this.characterPosition = Math.max(0, this.characterPosition - 15);
             this.updateCharacterSprite('walking-left');
         } else if (direction === 'right') {
+            this.characterPosition = Math.min(100, this.characterPosition + 15);
             this.updateCharacterSprite('walking-right');
         }
         
-        // For now, simulate reaching office after more walking time
-        setTimeout(() => {
-            if (this.gameState === 'walking') {
-                this.reachOffice();
-            }
-        }, 8000); // 8 seconds to walk to work - more time to help NPCs!
+        // Update character position on screen
+        this.updateCharacterPosition();
+        
+        // Check if character has reached the edge to go to work
+        if (this.characterPosition <= 0 || this.characterPosition >= 100) {
+            setTimeout(() => {
+                if (this.gameState === 'walking') {
+                    this.reachOffice();
+                }
+            }, 500); // Small delay for smooth transition
+        }
     }
     
     // Character sprite management
@@ -286,6 +311,14 @@ class AnxiouslyEngagedGame {
             character.classList.remove('idle', 'walking-left', 'walking-right');
             // Add the new sprite class
             character.classList.add(spriteClass);
+        });
+    }
+    
+    // Update character position on screen
+    updateCharacterPosition() {
+        const characters = document.querySelectorAll('.character');
+        characters.forEach(character => {
+            character.style.left = `${this.characterPosition}%`;
         });
     }
     
@@ -461,6 +494,8 @@ class AnxiouslyEngagedGame {
         this.gameRunning = false;
         this.gameStartTime = null;
         this.workStartTime = null;
+        this.characterPosition = 50;
+        this.lastMovement = null;
         this.usedEncounters = [];
         this.currentEncounter = null;
         

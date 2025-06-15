@@ -134,9 +134,10 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
-    left: 5%;
+    left: 50%;
     bottom: 20%;
-    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    transition: all 0.5s ease;
 }
 
 /* Larger characters in street scene */
@@ -167,7 +168,7 @@ body {
     background-position: center;
     position: absolute;
     right: 5%;
-    bottom: 25%;
+    top: 20%;
     cursor: pointer;
     transition: all 0.3s ease;
 }
