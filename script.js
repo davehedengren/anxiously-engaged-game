@@ -389,14 +389,9 @@ class AnxiouslyEngagedGame {
     
     continueToWork() {
         this.elements.anxiouslyEngagedOverlay.style.display = 'none';
-        this.changeState('walking');
         
-        // Continue to office after celebrating
-        setTimeout(() => {
-            if (this.gameState === 'walking') {
-                this.reachOffice();
-            }
-        }, 1000);
+        // Go directly to office after celebrating - no more walking/encounters
+        this.reachOffice();
     }
     
     showEndOfDayScreen() {
