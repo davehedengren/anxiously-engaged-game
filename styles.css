@@ -134,8 +134,8 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
-    left: 15%;
-    bottom: 15%;
+    left: 5%;
+    bottom: 20%;
     transition: all 0.3s ease;
 }
 
@@ -166,8 +166,8 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
-    right: 10%;
-    bottom: 15%;
+    right: 5%;
+    bottom: 25%;
     cursor: pointer;
     transition: all 0.3s ease;
 }
